@@ -1,11 +1,11 @@
-# GIL (Global Interpreter Lock) 
-# 예제 1) 파이썬이 hread-safe 하지 않은 이유 알아보기 
 import threading 
 import time
 import random
 
-x = 0 # 공유 값 선언
+# GIL (Global Interpreter Lock) 
+# 예제 1) 파이썬이 hread-safe 하지 않은 이유 알아보기 
 
+x = 0 # 공유 값 선언
 def foo(): 
     global x 
     for i in range(100000000): 
@@ -32,30 +32,31 @@ print(x)
 # 세번째 시도 결과 값 : 6957599
 
 
-# 예제2) 파이썬에서의 싱글스레딩과 멀티스레딩 비교
-def loop():
-    for i in range(50000000):
-        pass
+# # 예제2) 파이썬에서의 싱글스레딩과 멀티스레딩 비교
+# def loop():
+#     for i in range(500000000):
+#         pass
 
-# Single Thread
-start = time.time()
-loop()
-loop()
-end = time.time()
-print('Single Thread : {}'.format(end - start))
+# # Single Thread
+# start = time.time()
+# loop()
+# loop()
+# end = time.time()
+# print('Single Thread : {}'.format(end - start))
 
-# Multi Thread
-start = time.time()
-thread1 = threading.Thread(target=loop)
-thread2 = threading.Thread(target=loop)
-thread1.start()
-thread2.start()
-thread1.join()
-thread2.join()
-end = time.time()
-print('Multi Thread : {}'.format(end - start))
-# 싱글스레드 결과 값 : 
-# 멀티스레드 결과 값 : 
+# # Multi Thread
+# start = time.time()
+# thread1 = threading.Thread(target=loop)
+# thread2 = threading.Thread(target=loop)
+# thread1.start()
+# thread2.start()
+# thread1.join()
+# thread2.join()
+# end = time.time()
+# print('Multi Thread : {}'.format(end - start))
+# # 싱글스레드 결과 값 : 
+# # 멀티스레드 결과 값 : 
+######## 싱글 스레드가 빠르고 멀티스레드가 오래 걸릴 줄 알았는데 반대의 결과가 나왔다 ...
 
 
 # 예제 3) sleep 매서드로 멀티스레드 성능개선 
