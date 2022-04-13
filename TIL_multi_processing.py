@@ -77,7 +77,7 @@ if __name__ == '__main__':
     print (f"{round(end_time-start_time,2)} finished") #  1.11 finished
 
 
-    #### concurrent 모듈 이용
+#### concurrent 모듈 이용
 def sleep_curr():
     print('sleeping 1 sec')
     time.sleep(1)
