@@ -1,42 +1,151 @@
 import multiprocessing as mp
+from multiprocessing import Process, Queue
 import time 
 import concurrent.futures
 
-# #### 기본 사용 
-# if __name__ == "__main__":
-#     processing = mp.current_process()
-#     print(processing.name) # MainProcess
-#     print(processing.pid) # 43496
+#### 기본 사용 
+def f(name):
+    print('hello', name)
+
+if __name__ == '__main__':
+    p = Process(target=f, args=('bob',)) # Process 객체를 생성하고, f 함수를 할당하고 그 인자로 ('bob',)를 넘긴다
+    p.start() # start()매서드를 호출해서 spawn함
+    p.join() # 프로세스가 완전히 끝나길 기다림
 
 
-# start_time = time.time()
-# #### 카운트 시간 비교 
-# def count(name):
-#     for i in range(1, 50001):
-#         print (name, ':', i)
-
-# num_list = ['p1','p2','p3','p4']
-
-# for num in num_list:
-#     count(num)
-
-# print (time.time() - start_time) # 1.4645321369171143
+#### 프로세스 정보 얻기 
+if __name__ == "__main__":
+    processing = mp.current_process()
+    print(processing.name) # MainProcess
+    print(processing.pid) # 43496
 
 
-# #### 멀티프로세싱을 이용한 카운트
-# def count2(name):
-#     for i in range(1,50001):
-#         print (name, ':', i)
+#### 프로세스 스포닝 
+def worker():
+    print('SubProcess End!')
 
-# num_list2 = ['p1','p2','p3','p4']
+if __name__ == "__main__":
+    p = mp.Process(name='SubProcess', target=worker) #process spawning
+    p.start()
 
-# if __name__ == '__main__':
-#     pool = mp.Pool(processes=2) # 현재 시스템에서 사용할 프로세스 개수
-#     pool.map(count2, num_list2)
-#     pool.close()
-#     pool.join()
 
-# print (time.time() - start_time) # 1.2373881340026855
+def worker2():
+    proc = mp.current_process()
+    print(proc.name)
+    print(proc.pid)
+    time.sleep(5)
+    print('SubProcess End')
+
+if __name__ == '__main__':
+    proc = mp.current_process() # main process
+    print(proc.name) 
+    print(proc.pid)
+
+    p = mp.Process(name='SubProcess', target=worker2)
+    p.start()
+
+    print('MainProcess End')
+
+
+#### 함수에 인자 전달하기
+def work3(value):
+    pname = mp.current_process().name
+    print(pname, value)
+
+if __name__ == "__main__":
+    p = mp.Process(name="Sub Process", target=work3, args=("hello",))
+    p.start()
+    p.join()
+    print("Main Process")
+
+
+#### 클래스안에 있는 함수에 인자 전달하기
+class Worker:
+    def __init__(self):
+        pass 
+
+    def run(self, value):
+        pname = mp.current_process().name
+        print(pname, value)
+
+
+if __name__ == "__main__":
+    w = Worker()
+    p = mp.Process(name="Sub Process", target=w.run, args=("hello",))
+    p.start()
+    p.join()
+    print("Main Process")
+
+
+#### join을 사용 했을 때와 사용하지 않았을 때의 차이
+#### 사용 했을 때 
+def work4():
+    print("Sub Process start")
+    time.sleep(5) 
+    print("Sub Process end")
+
+if __name__ == "__main__":
+    print("Main Process start")
+    proc = mp.Process(name="Sub Process", target=work4)
+    proc.start()
+    proc.join() 
+    print("Main Process end")
+# 메인 프로세스가 서브 프로세스의 작업이 끝나길 기다림 
+
+
+#### 사용하지 않았을 때
+def work5():
+    print("Sub Process start")
+    time.sleep(5) 
+    print("Sub Process end")
+
+if __name__ == "__main__":
+    print("Main Process start")
+    proc = mp.Process(name="Sub Process", target=work5)
+    proc.start() 
+    print("Main Process end")
+
+
+#### Queues 클래스 사용하기 
+def queue(q):
+    q.put([5, False, 'Queue'])
+
+if __name__ == '__main__':
+    q = Queue()
+    p = Process(target=queue, args=(q,))
+    p.start()
+    print(q.get())
+    p.join()
+   
+
+#### 카운트 시간 비교 
+start_time = time.time()
+def count(name):
+    for i in range(1, 50001):
+        print (name, ':', i)
+
+num_list = ['p1','p2','p3','p4']
+
+for num in num_list:
+    count(num)
+
+print (time.time() - start_time) # 1.4645321369171143
+
+
+#### 멀티프로세싱을 이용한 카운트
+def count2(name):
+    for i in range(1,50001):
+        print (name, ':', i)
+
+num_list2 = ['p1','p2','p3','p4']
+
+if __name__ == '__main__':
+    pool = mp.Pool(processes=2) # 현재 시스템에서 사용할 프로세스 개수
+    pool.map(count2, num_list2)
+    pool.close()
+    pool.join()
+
+print (time.time() - start_time) # 1.2373881340026855
 
 
 #### sleep을 이용한 비교 
