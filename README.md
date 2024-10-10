@@ -37,6 +37,7 @@
 |name|description|
 |-|-|
 |[빌더 패턴(builder pattern)](https://github.com/fore0919/design-pattern/blob/main/Creational/Builder.ipynb)|복잡한 객체의 생성 과정을 단순화하고, 객체를 단계적으로 생성하며 구성하는 패턴|
+|[추상 팩토리(abstract pattern)](https://github.com/fore0919/design-pattern/blob/main/Creational/Abstract%20Factory.ipynb)|인터페이스를 정의하여 객체 생성을 추상화한 팩토리|
 
 
 </br>
@@ -45,6 +46,11 @@
 ### 구조 패턴(Structural Pattern)
 ****
 클래스와 객체를 더 큰 구조로 만들 수 있게 구상을 사용하는 패턴
+|name|description|
+|-|-|
+|[데코레이터 패턴(decorator pattern)](https://github.com/fore0919/design-pattern/blob/main/Structural/Decorator.ipynb)|객체에 추가적인 기능을 동적으로 더할 수 있게 해주는 패턴|
+|[퍼사드 패턴(facade pattern)](https://github.com/fore0919/design-pattern/blob/main/Structural/Facade.ipynb)|간단한 인터페이스를 제공하여 서브시스템의 복잡성을 숨기고, 클라이언트와 서브시스템 간의 상호작용을 간소화|
+|[저장소 패턴(repository pattern)](https://github.com/fore0919/design-pattern/blob/main/Structural/Repository.ipynb)|데이터 저장소의 독립성을 보장하고 비즈니스 로직을 데이터 액세스 코드로부터 분리하는 디자인 패턴|
 
 </br>
 
